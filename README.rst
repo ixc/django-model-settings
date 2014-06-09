@@ -70,23 +70,69 @@ an empty string as the default value::
     settings = Setting.object.as_dict(default='')
 
 
-Custom Settings
-===============
+Creating Settings
+=================
 
-Support for core types of settings is built-in, e.g. boolean, date, datetime,
-decimal, file, float, integer, text, time. You can add support for custom types
-by subclassing ``Setting`` and ``SettingValueModel``::
+You can create settings of a particular type by using the ``SettingValueModel``
+subclasses::
+
+    Boolean.objects.create(name='foo', value=True)
+    Integer.objects.create(name='bar', value=123)
+
+You can automatically create a setting of the correct type by using the
+``Setting`` model directly::
+
+    Setting.objects.create(name='foo', value=True)
+    Setting.objects.create(name='bar', value=123)
+
+Each ``SettingValueModel`` subclass has a ``value_type`` attribute and an
+``is_compatible()`` method, which are used to determine whether or not the
+subclass can store a particular value.
+
+
+Custom Setting Types
+====================
+
+Support for common types of settings is built-in, e.g. boolean, date, datetime,
+decimal, file, float, integer, text, and time. You can add support for custom
+types by subclassing ``Setting`` and ``SettingValueModel``::
 
     class Foo(Setting, SettingValueModel):
         value = FooField()
+        value_type = FooType
+
+If you need more than a simple type check against ``value_type`` to determine
+whether or not a value is comatible, you can override the ``is_compatible()``
+method.
+
+This method takes a value and should return ``True`` if the value is
+compatible, or ``False`` if it is not. You can use this to create sub-types
+that are rendered differently or utilise a different widget on the admin form.
+For example, single line and multi-line text::
+
+    class SingleLineText(Setting, SettingValueModel):
+        value = models.CharField(max_length=255)
 
         def is_compatible(self, value):
-            # Return True if `value` is compatible with `FooField`.
+            if isinstance(value, unicode) and '\n' not in value:
+                return True
+            return False
+
+    class MultiLineText(Setting, SettingValueModel):
+        value = models.TextField()
+
+        def is_compatible(self, value):
+            if isintance(value, unicode) and '\n' in value:
+                return True
+            return False
+
+The ``value_type`` attribute and ``is_compatible()`` method are only by
+``Setting.objects.create()``, when it tries to determine which subclass to use.
 
 
-TODO
-====
+To Do
+=====
 
 *   Customise label, help text, etc. for settings in the admin edit form.
 *   Add plugins for Rich Text and Raw code (HTML, CSS, JS) settings.
-*   Docs and tests.
+*   Add tests.
