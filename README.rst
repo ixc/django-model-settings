@@ -51,6 +51,11 @@ for a particular setting::
     {% get_setting "some_feature" True as some_feature %}
     {% if some_feature %}...{% endif %}
 
+You can also use the included ``model_settings.context_processor.settings``
+context processor to add ``SETTINGS`` to all ``RequestContext`` objects. This
+will be a ``SettingDict`` object that automatically creates non-existent
+settings on first access with an empty string as the default value.
+
 
 How to use in Views
 ===================
