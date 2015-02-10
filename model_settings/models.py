@@ -64,6 +64,10 @@ class SettingModel(PolymorphicModel):
         compatible with the type of ``value``. Calls ``is_compatible()`` on
         each subclass.
         """
+        # the class may handle it directly, rather than via subclasses,
+        # for example if you do Integer.objects.create..
+        if hasattr(cls, 'is_compatible') and cls.is_compatible(value):
+            return cls
         for related_object in cls._meta.get_all_related_objects():
             model = related_object.model
             if issubclass(model, cls):
@@ -100,7 +104,7 @@ class SettingValueModel(models.Model):
             raise NotImplemented(
                 'You must define a `value_type` attribute or override the '
                 '`is_compatible()` method on `SettingValueModel` subclasses.')
-        return isinstance(value, cls.value_type)
+        return type(value) == cls.value_type
 
 ### CONCRETE MODELS ###########################################################
 
