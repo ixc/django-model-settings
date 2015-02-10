@@ -104,7 +104,7 @@ class SettingValueModel(models.Model):
             raise NotImplemented(
                 'You must define a `value_type` attribute or override the '
                 '`is_compatible()` method on `SettingValueModel` subclasses.')
-        return type(value) == cls.value_type
+        return isinstance(value, cls.value_type)
 
 ### CONCRETE MODELS ###########################################################
 
