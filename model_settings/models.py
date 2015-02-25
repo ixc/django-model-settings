@@ -5,7 +5,7 @@ arbitrary settings of different types.
 
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models.fields.files import FieldFile
+from django.db.models.fields.files import FieldFile, ImageFieldFile
 from django.db.models.query import QuerySet
 from model_settings.utils import SettingDict
 from polymorphic import PolymorphicManager, PolymorphicModel
@@ -131,6 +131,10 @@ class File(Setting, SettingValueModel):
 class Float(Setting, SettingValueModel):
     value = models.FloatField()
     value_type = float
+
+class Image(Setting, SettingValueModel):
+    value = models.ImageField(upload_to='model-settings/images')
+    value_type = ImageFieldFile
 
 class Integer(Setting, SettingValueModel):
     value = models.IntegerField()
