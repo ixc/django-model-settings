@@ -9,6 +9,15 @@ Includes template tags and a dict-like interface to access settings, with an
 option to automatically create non-existent settings on first access with a
 default value.
 
+South Compatibility
+===================
+
+To use the South migrations, put something like this in your settings:
+
+    MIGRATION_MODULES = {
+        'model_settings': 'model_settings.south_migrations',
+    }
+
 
 How to Use in Templates
 =======================
