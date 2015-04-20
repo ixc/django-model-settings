@@ -22,7 +22,11 @@ class SettingModelAdmin(PolymorphicParentModelAdmin):
         child_models = []
         # Loop through all models with FKs back to `base_model`.
         for related_object in self.base_model._meta.get_all_related_objects():
-            model = related_object.model
+            # Django 1.8 deprecated `get_all_related_objects()`. We're still
+            # using it for now with the documented work-around for
+            # compatibility with Django <=1.7.
+            model = getattr(
+                related_object, 'related_model', related_object.model)
             # Only consider `base_model` subclasses.
             if issubclass(model, self.base_model):
                 class SettingValueAdmin(self.base_admin_class):
