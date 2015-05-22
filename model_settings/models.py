@@ -65,7 +65,7 @@ class SettingModel(PolymorphicModel):
         each subclass.
         """
         for related_object in cls._meta.get_all_related_objects():
-            model = related_object.model
+            model = getattr(related_object, 'related_model', related_object.model)
             if issubclass(model, cls):
                 if model.is_compatible(value):
                     return model
