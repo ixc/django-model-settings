@@ -109,7 +109,7 @@ class Setting(SettingModel):
     objects = SettingManager()
 
 class Boolean(Setting, SettingValueModel):
-    value = models.BooleanField()
+    value = models.BooleanField(default=False)
     value_type = bool
 
 class Date(Setting, SettingValueModel):
