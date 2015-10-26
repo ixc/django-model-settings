@@ -10,13 +10,13 @@ if {'bdist_wheel', 'sdist'}.intersection(sys.argv):
     try:
         import pypandoc
     except ImportError:
-        print('ERROR: You must install `pypandoc` to convert `README.md` to '
-              'reStructuredText to use as long description.',
+        print('WARNING: You should install `pypandoc` to convert `README.md` '
+              'to reStructuredText to use as long description.',
               file=sys.stderr)
-        exit(1)
-    print('Converting `README.md` to reStructuredText to use as long '
-          'description.')
-    long_description = pypandoc.convert('README.md', 'rst')
+    else:
+        print('Converting `README.md` to reStructuredText to use as long '
+              'description.')
+        long_description = pypandoc.convert('README.md', 'rst')
 
 setuptools.setup(
     name='django-model-settings',
