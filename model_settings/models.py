@@ -9,7 +9,12 @@ from django.db.models.fields.files import FieldFile, ImageFieldFile
 from django.db.models.query import QuerySet
 from model_settings.utils import SettingDict
 from polymorphic.manager import PolymorphicManager
-from polymorphic.models import PolymorphicModel
+try:
+    # for django-polymorphic >= 0.8
+    from polymorphic.models import PolymorphicModel
+except:
+    # for django-polymorphic < 0.8
+    from polymorphic import PolymorphicModel
 from polymorphic.query import PolymorphicQuerySet
 import datetime, decimal, posixpath, re
 
