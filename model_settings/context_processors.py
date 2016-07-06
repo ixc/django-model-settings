@@ -6,7 +6,7 @@ def settings(request):
     ``SETTINGS``. Automatically creates non-existent settings with an empty
     string as the default value.
     """
-    settings = Setting.objects.as_dict(default='')
+    settings = Setting.objects.all().as_dict(default='')
     context = {
         'SETTINGS': settings,
     }

@@ -8,7 +8,13 @@ from django.db import models
 from django.db.models.fields.files import FieldFile, ImageFieldFile
 from django.db.models.query import QuerySet
 from model_settings.utils import SettingDict
-from polymorphic import PolymorphicManager, PolymorphicModel
+from polymorphic.manager import PolymorphicManager
+try:
+    # for django-polymorphic >= 0.8
+    from polymorphic.models import PolymorphicModel
+except:
+    # for django-polymorphic < 0.8
+    from polymorphic import PolymorphicModel
 from polymorphic.query import PolymorphicQuerySet
 import datetime, decimal, posixpath, re
 
@@ -29,7 +35,7 @@ class SettingQuerySet(PolymorphicQuerySet):
         """
         if value == None:
             raise ValueError('Setting value cannot be `None`.')
-        model = self.model.get_model_for_value(value)
+        model = Setting.get_model_for_value(value)
         # Call `create()` method on the super class to avoid recursion.
         obj = super(SettingQuerySet, model.objects.all()) \
             .create(name=name, value=value)
