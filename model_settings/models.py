@@ -70,6 +70,7 @@ class SettingModel(PolymorphicModel):
         compatible with the type of ``value``. Calls ``is_compatible()`` on
         each subclass.
         """
+        cls = Setting # following line will only run on polymorphic concrete parents
         for related_object in cls._meta.get_all_related_objects():
             model = getattr(related_object, 'related_model', related_object.model)
             if issubclass(model, cls):
