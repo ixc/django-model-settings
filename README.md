@@ -1,5 +1,4 @@
-Overview
-========
+# Overview
 
 Provides persistant settings that can be edited in the Django admin. Settings
 can be any data type via polymorphic models. You can add support for new or
@@ -9,16 +8,14 @@ Includes template tags and a dict-like interface to access settings, with an
 option to automatically create non-existent settings on first access with a
 default value.
 
+# How to Use in Templates
 
-How to Use in Templates
-=======================
-
-Load the tag library::
+Load the tag library:
 
     {% load model_settings_tags %}
 
 Get a settings object that will fetch and cache all setting values on first
-access::
+access:
 
     {% get_settings as settings %}
 
@@ -28,14 +25,14 @@ access::
     {# Only hits the database if `other_setting` isn't already in the cache. #}
     {{ settings.other_setting }}
 
-Settings can be used to store snippets of content or configuration::
+Settings can be used to store snippets of content or configuration:
 
     {% if settings.some_boolean_configuration %}
         ... {{ settings.some_text_content }} ...
     {% endif %}
 
 Get a settings object that will automatically create non-existent settings with
-an empty string as the default value::
+an empty string as the default value:
 
     {% get_settings "" as settings %}
 
@@ -43,7 +40,7 @@ an empty string as the default value::
     {{ settings.new_setting }}
 
 If you only need to get one setting, or want to use a different default value
-for a particular setting::
+for a particular setting:
 
     {% get_setting "some_content" %}
 
@@ -51,69 +48,63 @@ for a particular setting::
     {% get_setting "some_feature" True as some_feature %}
     {% if some_feature %}...{% endif %}
 
-You can also use the included ``model_settings.context_processor.settings``
-context processor to add ``SETTINGS`` to all ``RequestContext`` objects. This
-will be a ``SettingDict`` object that automatically creates non-existent
+You can also use the included `model_settings.context_processor.settings`
+context processor to add `SETTINGS` to all `RequestContext` objects. This
+will be a `SettingDict` object that automatically creates non-existent
 settings on first access with an empty string as the default value.
 
+# How to use in Views
 
-How to use in Views
-===================
-
-Get a dict-like object for all settings::
+Get a dict-like object for all settings:
 
     from model_settings.models import Setting
     settings = Setting.objects.as_dict()
 
-Get a settings object that only populates the cache for a subset of settings::
+Get a settings object that only populates the cache for a subset of settings:
 
     settings = Setting.objects.filter(name__startswith='foo').as_dict()
 
 Get a settings object that will automatically create non-existent settings with
-an empty string as the default value::
+an empty string as the default value:
 
     settings = Setting.object.as_dict(default='')
 
+# Creating Settings
 
-Creating Settings
-=================
-
-You can create settings of a particular type by using the ``SettingValueModel``
-subclasses::
+You can create settings of a particular type by using the `SettingValueModel`
+subclasses:
 
     Boolean.objects.create(name='foo', value=True)
     Integer.objects.create(name='bar', value=123)
 
 You can automatically create a setting of the correct type by using the
-``Setting`` model directly::
+`Setting` model directly:
 
     Setting.objects.create(name='foo', value=True)
     Setting.objects.create(name='bar', value=123)
 
-Each ``SettingValueModel`` subclass has a ``value_type`` attribute and an
-``is_compatible()`` method, which are used to determine whether or not the
+Each `SettingValueModel` subclass has a `value_type` attribute and an
+`is_compatible()` method, which are used to determine whether or not the
 subclass can store a particular value.
 
-
-Custom Setting Types
-====================
+# Custom Setting Types
 
 Support for common types of settings is built-in, e.g. boolean, date, datetime,
 decimal, file, float, integer, text, and time. You can add support for custom
-types by subclassing ``Setting`` and ``SettingValueModel``::
+types by subclassing `Setting` and `SettingValueModel`:
 
     class Foo(Setting, SettingValueModel):
         value = FooField()
         value_type = FooType
 
-If you need more than a simple type check against ``value_type`` to determine
-whether or not a value is comatible, you can override the ``is_compatible()``
+If you need more than a simple type check against `value_type` to determine
+whether or not a value is comatible, you can override the `is_compatible()`
 method.
 
-This method takes a value and should return ``True`` if the value is
-compatible, or ``False`` if it is not. You can use this to create sub-types
+This method takes a value and should return `True` if the value is
+compatible, or `False` if it is not. You can use this to create sub-types
 that are rendered differently or utilise a different widget on the admin form.
-For example, single line and multi-line text::
+For example, single line and multi-line text:
 
     class SingleLineText(Setting, SettingValueModel):
         value = models.CharField(max_length=255)
@@ -131,12 +122,10 @@ For example, single line and multi-line text::
                 return True
             return False
 
-The ``value_type`` attribute and ``is_compatible()`` method are only by
-``Setting.objects.create()``, when it tries to determine which subclass to use.
+The `value_type` attribute and `is_compatible()` method are only by
+`Setting.objects.create()`, when it tries to determine which subclass to use.
 
-
-To Do
-=====
+# To Do
 
 *   Customise label, help text, etc. for settings in the admin edit form.
 *   Add plugins for Rich Text and Raw code (HTML, CSS, JS) settings.
