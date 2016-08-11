@@ -1,3 +1,7 @@
+[![Build Status](https://img.shields.io/travis/ixc/django-model-settings.svg)](https://travis-ci.org/ixc/django-model-settings)
+[![Coverage Status](https://img.shields.io/coveralls/ixc/django-model-settings.svg)](https://coveralls.io/github/ixc/django-model-settings)
+[![Version](https://img.shields.io/pypi/v/django-model-settings.svg)](https://pypi.python.org/pypi/django-model-settings)
+
 # Overview
 
 Provides persistant settings that can be edited in the Django admin. Settings
