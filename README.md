@@ -131,6 +131,6 @@ The `value_type` attribute and `is_compatible()` method are only by
 
 # To Do
 
-*   Customise label, help text, etc. for settings in the admin edit form.
-*   Add plugins for Rich Text and Raw code (HTML, CSS, JS) settings.
-*   Add tests.
+  * Customise label, help text, etc. for settings in the admin edit form.
+  * Add plugins for Rich Text and Raw code (HTML, CSS, JS) settings.
+  * Add tests.
