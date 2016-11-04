@@ -16,7 +16,7 @@ except:
     # for django-polymorphic < 0.8
     from polymorphic import PolymorphicModel
 from polymorphic.query import PolymorphicQuerySet
-import datetime, decimal, posixpath, re
+import datetime, decimal, posixpath, re, six
 
 ### QUERYSETS #################################################################
 
@@ -148,7 +148,7 @@ class Integer(Setting, SettingValueModel):
 
 class Text(Setting, SettingValueModel):
     value = models.CharField(max_length=255)
-    value_type = unicode
+    value_type = six.text_type
 
 class Time(Setting, SettingValueModel):
     value = models.TimeField()
