@@ -103,7 +103,7 @@ class SettingValueModel(models.Model):
         between single and multi-line text.
         """
         if not hasattr(cls, 'value_type'):
-            raise NotImplemented(
+            raise NotImplementedError(
                 'You must define a `value_type` attribute or override the '
                 '`is_compatible()` method on `SettingValueModel` subclasses.')
         return isinstance(value, cls.value_type)
