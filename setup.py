@@ -26,11 +26,14 @@ setuptools.setup(
                 'interface and template tags.',
     long_description=locals().get('long_description', ''),
     license='MIT',
-    packages=setuptools.find_packages(),
+    packages = setuptools.find_packages(exclude=["tests"]),
     include_package_data=True,
     install_requires=[
         'django-classy-tags',
         'django-polymorphic',
     ],
     setup_requires=['setuptools_scm'],
+    extras_require={
+      "test": ["coverage==4.2"]
+    }
 )
