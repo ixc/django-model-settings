@@ -113,6 +113,7 @@ For example, single line and multi-line text:
     class SingleLineText(Setting, SettingValueModel):
         value = models.CharField(max_length=255)
 
+        @classmethod
         def is_compatible(self, value):
             if isinstance(value, unicode) and '\n' not in value:
                 return True
@@ -121,6 +122,7 @@ For example, single line and multi-line text:
     class MultiLineText(Setting, SettingValueModel):
         value = models.TextField()
 
+        @classmethod
         def is_compatible(self, value):
             if isintance(value, unicode) and '\n' in value:
                 return True
