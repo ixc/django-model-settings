@@ -34,7 +34,7 @@ class GetSettings(AsTag):
         """
         Returns a ``SettingDict`` object.
         """
-        if default == None:
+        if default is None:
             settings = self.setting_model.objects.as_dict()
         else:
             settings = self.setting_model.objects.as_dict(default=default)
@@ -70,7 +70,7 @@ class GetSetting(AsTag):
         Returns the value of the named setting.
         """
         settings = self.setting_model.objects.filter(name=name)
-        if default == None:
+        if default is None:
             settings = settings.as_dict()
         else:
             settings = settings.as_dict(default=default)
