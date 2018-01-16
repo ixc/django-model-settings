@@ -1,4 +1,13 @@
+import django
 from django.db import transaction
+
+
+def get_all_related_objects(opts):
+    if django.VERSION < (1, 8):
+        return opts.get_all_related_objects()
+    else:
+        return [r for r in opts.related_objects if not r.field.many_to_many]
+
 
 class SettingDict(dict):
     """

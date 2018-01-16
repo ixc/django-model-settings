@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models.fields.files import FieldFile, ImageFieldFile
 from django.db.models.query import QuerySet
-from model_settings.utils import SettingDict
+from model_settings.utils import SettingDict, get_all_related_objects
 from polymorphic.manager import PolymorphicManager
 try:
     # for django-polymorphic >= 0.8
@@ -70,7 +70,7 @@ class SettingModel(PolymorphicModel):
         compatible with the type of ``value``. Calls ``is_compatible()`` on
         each subclass.
         """
-        for related_object in cls._meta.get_all_related_objects():
+        for related_object in get_all_related_objects(cls._meta):
             model = getattr(related_object, 'related_model', related_object.model)
             if issubclass(model, cls):
                 if model.is_compatible(value):

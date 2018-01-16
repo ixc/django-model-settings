@@ -1,5 +1,5 @@
 from django.contrib import admin
-from model_settings.models import Setting
+from model_settings.models import Setting, get_all_related_objects
 from polymorphic.admin import PolymorphicChildModelAdmin
 from polymorphic.admin import PolymorphicParentModelAdmin
 
@@ -21,7 +21,7 @@ class SettingModelAdmin(PolymorphicParentModelAdmin):
         """
         child_models = []
         # Loop through all models with FKs back to `base_model`.
-        for related_object in self.base_model._meta.get_all_related_objects():
+        for related_object in get_all_related_objects(self.base_model._meta):
             # Django 1.8 deprecated `get_all_related_objects()`. We're still
             # using it for now with the documented work-around for
             # compatibility with Django <=1.7.
