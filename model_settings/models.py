@@ -33,7 +33,7 @@ class SettingQuerySet(PolymorphicQuerySet):
         """
         Creates and returns an object of the appropriate type for ``value``.
         """
-        if value == None:
+        if value is None:
             raise ValueError('Setting value cannot be `None`.')
         model = Setting.get_model_for_value(value)
         # Call `create()` method on the super class to avoid recursion.
@@ -103,7 +103,7 @@ class SettingValueModel(models.Model):
         between single and multi-line text.
         """
         if not hasattr(cls, 'value_type'):
-            raise NotImplemented(
+            raise NotImplementedError(
                 'You must define a `value_type` attribute or override the '
                 '`is_compatible()` method on `SettingValueModel` subclasses.')
         return isinstance(value, cls.value_type)

@@ -19,7 +19,7 @@ class SettingDict(dict):
         if model:
             self.model = model
             self.queryset = model.objects.all()
-        elif queryset != None: # Don't evaluate the queryset as a boolean.
+        elif queryset is not None: # Don't evaluate the queryset as a boolean.
             if model:
                 raise ValueError(
                     'Only one of `model` or `queryset` can be provided.')
@@ -66,7 +66,7 @@ class SettingDict(dict):
             try:
                 value = self.model.objects.get(name=key).value
             except self.model.DoesNotExist:
-                if self.default == None:
+                if self.default is None:
                     raise KeyError(key)
                 # Create setting with default value.
                 value = self.default

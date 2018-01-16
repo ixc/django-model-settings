@@ -109,10 +109,12 @@ This method takes a value and should return `True` if the value is
 compatible, or `False` if it is not. You can use this to create sub-types
 that are rendered differently or utilise a different widget on the admin form.
 For example, single line and multi-line text:
+
 ```python
 class SingleLineText(Setting, SettingValueModel):
     value = models.CharField(max_length=255)
 
+    @classmethod
     def is_compatible(self, value):
         if isinstance(value, unicode) and '\n' not in value:
             return True
@@ -121,11 +123,13 @@ class SingleLineText(Setting, SettingValueModel):
 class MultiLineText(Setting, SettingValueModel):
     value = models.TextField()
 
+    @classmethod
     def is_compatible(self, value):
         if isintance(value, unicode) and '\n' in value:
             return True
         return False
 ```
+
 The `value_type` attribute and `is_compatible()` method are only by
 `Setting.objects.create()`, when it tries to determine which subclass to use.
 
