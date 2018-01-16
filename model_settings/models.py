@@ -33,7 +33,7 @@ class SettingQuerySet(PolymorphicQuerySet):
         """
         Creates and returns an object of the appropriate type for ``value``.
         """
-        if value == None:
+        if value is None:
             raise ValueError('Setting value cannot be `None`.')
         model = Setting.get_model_for_value(value)
         # Call `create()` method on the super class to avoid recursion.
